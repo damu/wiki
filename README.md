@@ -1,5 +1,5 @@
 # damu's wiki
-A wiki with articles about programming related topics.
+A wiki with articles about programming related topics. Mostly C++ related.
 
 You are free to correct or contribute stuff. The issue system could be used for discussions.
 
@@ -7,7 +7,8 @@ The licence of the articles here is the MIT licence or [GNU Free Documentation L
 
 ## Index
 
-[Optimizing Pixel Copying](optimizing_pixel_copying.md)
+[Optimizing Pixel Copying](optimizing_pixel_copying.md)  
+[Optimizing Compile Time](optimizing_compile_time.md)
 
 ## About
 
