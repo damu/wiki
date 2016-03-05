@@ -5,7 +5,7 @@ The first image has the color channels separated, first the red values of all pi
 Both images have all pixel data in a row without any spaces and both images have the same size (width and height) and the same color depth and channel count (both RGBA with 8bit per red, green, blue and alpha).
 
 The first simple approach was:
-```
+```C++
 for(int y=0;y<height();y++)        // go through each coordinate
     // having y in the outer and x in the outer loop has already cache optimization reasons due to the
     // memory layout.
@@ -21,7 +21,7 @@ for(int y=0;y<height();y++)        // go through each coordinate
 This code took 0.047 seconds. The application was a real-time visualization (like a game) and just this code brought my FPS (frames per second) down from ~190 to ~18, which is an unacceptable lag.
 
 The first thing that jumps to the mind are the floating point operations (expensive!) at the color conversion. Luckily the second library does also have a more direct SetPixelInt(uint32_t) function:
-```
+```C++
 for(int y=0;y<height();y++)        // go through each coordinate
     for(int x=0;x<width();x++)
     {
@@ -35,7 +35,7 @@ for(int y=0;y<height();y++)        // go through each coordinate
 This code took 0.031 seconds and brought my application to 24 FPS.
 
 Another thing that I saw was the usage of the width() and height() functions in the loop. The compiler may not optimize those away so let's do it manually and see:
-```
+```C++
 int h=height();
 int w=width();
 for(int y=0;y<h;y++)        // go through each coordinate
@@ -51,7 +51,7 @@ for(int y=0;y<h;y++)        // go through each coordinate
 This code took 0.03 seconds and no visible FPS change. A minor optimization but it's faster.
 
 The next thing I saw was that the pixel can also be set directly in memory. The SetPixelInt does have to calculate the pixel position in the memory by doing calculations with the x and y coordinate (it may also do additional stuff like checks). This time can be saved:
-```
+```C++
 int h=height();
 int w=width();
 // get a pointer to the pixel data
@@ -67,7 +67,7 @@ for(int y=0;y<h;y++)
 Now it takes 0.022 seconds and I have 33 FPS.
 
 The still existing get_pixel function can also be optimized as it is also doing coordinate calculations that are not necessary:
-```
+```C++
 int h=height();
 int w=width();
 int count=width()*height();
