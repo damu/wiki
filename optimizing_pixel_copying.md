@@ -1,7 +1,7 @@
 # Optimizing Pixel Copying
 
 So I have an image from a library I'm using and want to copy the pixels in that image to another image in a different format.
-The first image has the color channels separated, first the red values of all pixel, then blue, then green and then alpha. The second image has the pixels in the more common pixel based format with: First pixel: red, green, blue, alpha; next pixel: red, green, blue, alpha; next pixel: ...
+The first image has the color channels separated, first the red values of all pixel, then blue, then green and then alpha. The second image has the pixels in the more common pixel based format with: First pixel: red, green, blue, alpha; next pixel: red, green, blue, alpha; next pixel: ...  
 Both images have all pixel data in a row without any spaces and both images have the same size (width and height) and the same color depth and channel count (both RGBA with 8bit per red, green, blue and alpha).
 
 The first simple approach was:
@@ -90,5 +90,5 @@ for(;data_source<data_source_end;)
     data_source++;
 }
 ```
-This takes only around 0.001-0.002 seconds and I'm at ~90 FPS. (my timer is getting imprecise)
+This takes only around 0.001-0.002 seconds and I'm at ~90 FPS. (my timer is getting imprecise)  
 I got rid of all multiplications, unnecessary operations and object creations. Now there are only pointer increments, additions and byte movements (the CPU loves that).
