@@ -36,3 +36,5 @@ widget->add_child(lfgui::button("click me"));
 ```
 
 That I would like.
+
+It would be also possible to pass by value or reference and copy the object, but in this case the object can't be copied.
