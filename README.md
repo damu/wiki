@@ -10,6 +10,7 @@ The licence of the articles here is the MIT licence or [GNU Free Documentation L
 [Optimizing Pixel Copying](optimizing_pixel_copying.md): An adventure into optimizations not done by the compiler.  
 [Optimizing Compile Time](optimizing_compile_time.md): General tips and an experiment.  
 [Better Typed C++](better_typed_c++.md): Issues with C++ types and conversions and fixing them with current C++.  
+[Library Design: Creating Objects Handled by the Library](library_design_creation_on_heap.md)
 
 ## About
 
