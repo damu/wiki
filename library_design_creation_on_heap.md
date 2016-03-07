@@ -39,5 +39,5 @@ widget->add_child(lfgui::button("click me"));
 
 That I would like.
 
-Tried that. Program crashed with "Unknown Signal received". wat. Something could be wrong with my move constructors. Maybe I'll try that later again. Should be possible in principle but seems to be Black Magic (an experimental and new field where compiler don't really help that much).  
+Tried that. Program crashed with "Unknown Signal received". wat. Something could be wrong with my move constructors. Maybe I'll try that another timer again. Should be possible in principle but seems to be Black Magic (an experimental and new field where compiler don't really help that much).  
 
