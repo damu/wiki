@@ -28,6 +28,8 @@ widget->add_child(std::make_unique<lfgui::button>("click me"));
 - There is no IDE help.
 - Compiler errors are again somewhere in the library as with my first approach..
 
+It would be also possible to pass by value or reference and copy the object, but in this case the object can't be copied.
+
 ...  
 Oh I could try to use r-value reference (T&&) so that this may work:
 
@@ -37,4 +39,4 @@ widget->add_child(lfgui::button("click me"));
 
 That I would like.
 
-It would be also possible to pass by value or reference and copy the object, but in this case the object can't be copied.
+Tried that. Crashed with "Unknown Signal received". wat.
