@@ -39,4 +39,5 @@ widget->add_child(lfgui::button("click me"));
 
 That I would like.
 
-Tried that. Crashed with "Unknown Signal received". wat. Something could be wrong with my move constructors.
+Tried that. Program crashed with "Unknown Signal received". wat. Something could be wrong with my move constructors.  
+Partly undid my changes in that direction, compiled and GCC threw an exception. wat. Worked again after fixing the one other error of a missing overload GCC reported.  
