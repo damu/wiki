@@ -1,4 +1,4 @@
-# Library Design: Creating Cbjects Handled by the Library
+# Library Design: Creating Objects Handled by the Library
 
 For a while I exclusively used variadic templates to let the library create object:
 ```C++
