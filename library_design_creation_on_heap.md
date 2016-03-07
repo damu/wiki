@@ -41,3 +41,14 @@ That I would like.
 
 Tried that. Program crashed with "Unknown Signal received". wat. Something could be wrong with my move constructors.  
 Partly undid my changes in that direction, compiled and GCC threw an exception. wat. Worked again after fixing the one other error of a missing overload GCC reported.  
+The compiler exception is thrown when I try to basically use:
+```C++
+widget->add_child(lfgui::button("click me"));
+```
+Works with:
+```C++
+widget->add_child(new lfgui::button("click me"));
+```
+Well...  
+Oh it seems to be actually QtCreator with the "An exception was triggered" message. The compiler output looks fine.  
+Well. That's a bit better as GCC throwing up.
