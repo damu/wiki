@@ -43,3 +43,6 @@ for(int x=-10;x<10;x++)
     for(int y=-10;y<10;y++)
         sm.SetPixel(v.x_+x,v.y_+y,c);
 ```
+
+Handy functions to check for height ranges...  
+Maybe doing an RTS help with getting good ideas.
