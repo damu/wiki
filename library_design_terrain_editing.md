@@ -17,7 +17,8 @@ terrain->ApplyHeightMap();
 The splatting map texture can be changed with:
 ```C++
 IntVector2 v=terrain->WorldToHeightMap(cameraNode_->GetWorldPosition());
-// TU_DIFFUSE is defined to be 0, as in "the first texture" which is the splatting map in the default terrain material
+// TU_DIFFUSE is defined to be 0, as in "the first texture" which is the splatting map 
+// in the default terrain material
 Texture2D* t=(Texture2D*)terrain->GetMaterial()->GetTexture(TU_DIFFUSE);
 uint32_t c=Color(1,0,0).ToUInt();
 for(int x=-10;x<10;x++)
@@ -42,4 +43,3 @@ for(int x=-10;x<10;x++)
     for(int y=-10;y<10;y++)
         sm.SetPixel(v.x_+x,v.y_+y,c);
 ```
-
