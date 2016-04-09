@@ -1,5 +1,7 @@
 ### Converter Classes
 
+This is a bit similar to the article "[Better Typed C++](better_typed_c++.md): Issues with C++ types and conversions and fixing them with current C++".
+
 # The Problem
 
 One wants to write functions that take an object pointer in various fashions, like T*, unique_ptr<T>, shared_ptr<T>, ...
@@ -57,10 +59,11 @@ int main()
     //pointer_unique(nacked);   // error: could not convert 'nacked' from 'person*' to 'unique_ptr<person>'
 
     unique_ptr<person> unique(new person);
-    //pointer_nacked(unique);   // error: cannot convert 'unique_ptr<person>' to 'person*' for argument '1' to 'void pointer_nacked(person*)'
+    //pointer_nacked(unique);   // error: cannot convert 'unique_ptr<person>' to 'person*' for argument '1'
+                                // to 'void pointer_nacked(person*)'
     pointer_unique(unique);
 
-    // the pointer_any function accepts person* and unique_ptr<person> due to the any_pointer converter class
+    // the pointer_any function accepts person* and unique_ptr<person> due to the converter class
     pointer_any(nacked);  
     pointer_any(unique);
 
