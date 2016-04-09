@@ -1,15 +1,15 @@
-### Converter Classes
+# Converter Classes
 
 This is a bit similar to the article "[Better Typed C++](better_typed_c++.md): Issues with C++ types and conversions and fixing them with current C++".
 
-# The Problem
+### The Problem
 
 One wants to write functions that take an object pointer in various fashions, like T*, unique_ptr<T>, shared_ptr<T>, ...
 But one does not want to write every single overload.
 
 Also one does not want to add an implicit T* conversion to the wrapping classes (like some unique_ptr and shared_ptr).
 
-# Possible Solution
+### Possible Solution
 
 One can write a converter class that has the overloads for every desired conversion. With this approach the number of
 overloads gets moved from every function wanting to accept various pointers to the converter class.
