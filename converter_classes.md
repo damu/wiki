@@ -48,26 +48,26 @@ public:
     operator T*() {return ptr;}
 };
 
-void pointer_nacked(person*)                    {cout<<"pointer_nacked(person*) called"<<endl;}
+void pointer_naked(person*)                     {cout<<"pointer_naked(person*) called"<<endl;}
 void pointer_unique(const unique_ptr<person>&)  {cout<<"pointer_unique(unique_ptr<person>) called"<<endl;}
 void pointer_any(any_pointer<person>)           {cout<<"pointer_any(any_pointer<person>) called"<<endl;}
 
 int main()
 {
-    person* nacked=new person;
-    pointer_nacked(nacked);
-    //pointer_unique(nacked);   // error: could not convert 'nacked' from 'person*' to 'unique_ptr<person>'
+    person* naked=new person;
+    pointer_naked(naked);
+    //pointer_unique(naked);    // error: could not convert 'naked' from 'person*' to 'unique_ptr<person>'
 
     unique_ptr<person> unique(new person);
-    //pointer_nacked(unique);   // error: cannot convert 'unique_ptr<person>' to 'person*' for argument '1'
-                                // to 'void pointer_nacked(person*)'
+    //pointer_naked(unique);    // error: cannot convert 'unique_ptr<person>' to 'person*' for argument '1'
+                                // to 'void pointer_naked(person*)'
     pointer_unique(unique);
 
     // the pointer_any function accepts person* and unique_ptr<person> due to the converter class
-    pointer_any(nacked);  
+    pointer_any(naked);  
     pointer_any(unique);
 
-    delete nacked;
+    delete naked;
     return 0;
 }
 ```
@@ -75,7 +75,7 @@ int main()
 Output:
 ```
 person() 0x735c80
-pointer_nacked(person*) called
+pointer_naked(person*) called
 person() 0x735ca0
 pointer_unique(unique_ptr<person>) called
 pointer_any(any_pointer<person>) called
