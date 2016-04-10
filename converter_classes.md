@@ -4,7 +4,7 @@ This is a bit similar to the article "[Better Typed C++](better_typed_c++.md): I
 
 ### The Problem
 
-One wants to write functions that take an object pointer in various fashions, like T*, unique_ptr<T>, shared_ptr<T>, ...
+One wants to write functions that take an object pointer in various fashions, like T*, unique_ptr<T>, shared_ptr<T>, ...  
 But one does not want to write every single overload.
 
 Also one does not want to add an implicit T* conversion to the wrapping classes (like some unique_ptr and shared_ptr).
@@ -83,3 +83,6 @@ pointer_any(any_pointer<person>) called
 ~person() 0x735c80
 ~person() 0x735ca0
 ```
+
+This the generated assembler when building with -O3: http://i.imgur.com/yfrk8La.jpg  
+As one can see: The converter class doesn't really have an overhead.
