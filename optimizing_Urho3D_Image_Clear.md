@@ -46,4 +46,4 @@ else
 ```
 This takes only 0.382 ms.
 
-This optimizations has been proposed: https://github.com/urho3d/Urho3D/pull/1262
+This optimizations has been proposed and was accepted: https://github.com/urho3d/Urho3D/pull/1262
