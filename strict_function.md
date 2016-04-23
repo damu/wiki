@@ -63,8 +63,9 @@ Visual Studios whole error doesn't say at all which line caused the error. It's 
 ### The Solution
 
 To fix this error I had to make a function class that works like the std::function in libstdc++ (GCC). After many hours of
-searching and testing I found a working solution that works with C++11. C++17 will have a std::is_callable that may have made
-this much easier but I couldn't find a proper implementation of that so I kinda came up with my own.
+searching and testing I found a working solution that works with C++11.  
+C++17 will have a std::is_callable that may make this much easier but I couldn't find a proper implementation of that so
+I kinda came up with my own.
 
 ```C++
 template<typename Function,typename Return,typename... Parameter>
