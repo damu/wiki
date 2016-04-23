@@ -32,7 +32,7 @@ note: or       'void foo(std::function<Return (void)>)'
 ```
 
 I need this to work as I want to overload a function with different std::function's. I need the functions to act differently
-depending on which parameters the lambda has.
+depending on the parameters the lambda has.
 
 .  
 
