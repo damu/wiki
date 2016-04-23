@@ -183,3 +183,114 @@ bar("hello, world");               // string
 bar(std::string("hello, world"));  // string
 ```
 So one can get very explicit types and also "sane implicit conversions" by making custom types with some C++11 magic. This can be moved in a library so that the non-expert-user doesn't have to bother and it's also simply reusable without having to lookup the weird enable_if syntax each time.
+
+### Benchmark
+
+I've done a simple benchmark with units to test if simple types have a performance cost:
+
+```C++
+struct square_meter;
+
+// a simple 'meter' type for distances
+struct meter
+{
+    float value=0;
+
+    explicit constexpr meter(float value=0) : value(value){}
+    inline square_meter operator*(meter o);
+    //bool operator<(float v) {return value<v;}
+    //void operator+=(float o) {value+=o;}
+    bool operator<(meter v) const {return value<v.value;}
+    void operator+=(meter o) {value+=o.value;}
+};
+
+// a simple type to measure areas
+struct square_meter
+{
+    float value=0;
+    explicit constexpr square_meter(float value=0) : value(value){}
+    void operator+=(square_meter o) {value+=o.value;}
+};
+
+square_meter meter::operator*(const meter o) {return square_meter(value*o.value);}
+
+// I also tested the C++11 user-defined string literals
+constexpr meter operator "" _m(long double value) {return meter(value);}
+constexpr meter operator "" _m(unsigned long long int value) {return meter(value);}
+constexpr square_meter operator "" _sqm(long double value) {return square_meter(value);}
+constexpr square_meter operator "" _sqm(unsigned long long int value) {return square_meter(value);}
+
+...
+
+    {   // test if the units behave as intended
+        meter a(5);
+        meter b=3_m;
+        //a+=2;         // error: no match for 'operator+=' (operand types are 'meter' and 'int')
+        a+=meter(2);
+        a+=2_m;
+        a+=b;
+
+        a<b;
+        //a<5;          // error: no match for 'operator<' (operand types are 'meter' and 'int')
+
+        //square_meter c=a*5;   // error: no match for 'operator*' (operand types are 'meter' and 'int')
+        square_meter c=a*b;
+        square_meter d=a*meter(10);
+        square_meter e=a*10_m;
+        square_meter f=5_m*10_m;
+        //square_meter g=10;    // error: conversion from 'int' to non-scalar type 'square_meter' requested
+        square_meter g(10);
+        square_meter h=10_sqm;
+        square_meter i(5_m*10_m);
+    }   // they do
+    
+    // test the performance
+    for(int i=0;i<5;i++)   // first test directly working with floats
+    {
+        stk::timer _("no types");
+        float sum=0;
+        //for(float a=0;a<1000;a+=0.1)       // I also found out that these loops do really expensive
+            //for(float b=0;b<1000;b+=0.1)   // type conversions and are ~3 times slower
+        for(float a=0;a<1000.0f;a+=0.1f)
+            for(float b=0;b<1000.0f;b+=0.1f)
+                sum+=a*b;
+
+        cout<<"\t\t\t\t\t"<<sum<<endl;       // output the value so that the compiler does not optimize the calculation away
+    }
+    for(int i=0;i<5;i++)   // test with using the meter and square_meter types which are wrapped float's
+    {
+        stk::timer _("types");
+        square_meter sum=0_sqm;
+        for(meter a(0);a<1000_m;a+=0.1_m)
+            for(meter b(0);b<1000_m;b+=0.1_m)
+                sum+=a*b;
+
+        cout<<"\t\t\t\t\t"<<sum.value<<endl;
+    }
+```
+
+Output (with GCC 4.8.2):
+```
+					1.75922e+013
+0.13 	<- no types
+					1.75922e+013
+0.1 	<- no types
+					1.75922e+013
+0.11 	<- no types
+					1.75922e+013
+0.11 	<- no types
+					1.75922e+013
+0.1 	<- no types
+					1.75922e+013
+0.11 	<- types
+					1.75922e+013
+0.1 	<- types
+					1.75922e+013
+0.11 	<- types
+					1.75922e+013
+0.1 	<- types
+					1.75922e+013
+0.11 	<- types
+```
+For some reason the timings seems to be really unprecise, that happens sometimes and I have no idea why.  
+But it still looks as if the types have no impact on performance.
