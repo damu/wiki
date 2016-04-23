@@ -14,6 +14,7 @@ The licence of the articles here is the MIT licence or [GNU Free Documentation L
 [Converter Classes](converter_classes.md): Using classes to pass different wrapped arguments.  
 [Library Design: Creating Objects Handled by the Library](library_design_creation_on_heap.md)  
 [Library Design: Terrain Editing Urho3D](library_design_terrain_editing.md)  
+[strict std::function](strict_function.md): std::function behaves differently in the libstdc++ (GCC) and in the Visual Studio STL, this "fixes" the visual studio STL.
 
 ## About
 
