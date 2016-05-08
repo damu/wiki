@@ -5,8 +5,18 @@ This is for example the SSE extension on Intel compatible CPUs.
 
 SIMD often requires a special data layout, special data handling and is often done with hand written (SIMD) instructions, which basically means writing assembler. This is for once not portable and one does also not want to do this in a high language like C++. Most modern compilers can automatically create SIMD instructions if these can be used in the given case. GCC for example does them with -O3 or with the special auto vectorization flag.  
 GCC does also have a flag that generates information output to see what he could optimize with SIMD and what he could not and why:
-  -ftree-vectorizer-verbose=2
-The number goes from 1 to 6 with 6 being the most verbose. In my test 2 seems to be the most useful one.
+```
+-ftree-vectorizer-verbose=2
+```
+The number goes from 1 to 6 with 6 being the most verbose. In my test 2 seems to be the most useful one.  
+The output is quite chaotic but contains something like
+```
+..\main.cpp:8: note: not vectorized: not enough data-refs in basic block.
+Vectorizing loop at ..\main.cpp:28
+..\main.cpp:14: note: not vectorized: number of iterations cannot be computed.
+..\main.cpp:14: note: bad loop form.
+..\main.cpp:8: note: vectorized 1 loops in function.
+```
 
 I started experimenting with various loops to see what is optimized and how good.
 
