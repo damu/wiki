@@ -157,4 +157,4 @@ pminub xmm0,xmm7
 movdqa XMMWORD PTR [rax+r11*1],xmm0
 add    r11,0x10
 ```
-`movdqa` is a conditional SIMD move that compares 16 bytes at once.
+`pminub` is a conditional SIMD move that compares 16 bytes at once.
