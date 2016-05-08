@@ -158,3 +158,39 @@ movdqa XMMWORD PTR [rax+r11*1],xmm0
 add    r11,0x10
 ```
 `pminub` is a conditional SIMD move that compares 16 bytes at once.
+
+## Test 3: Getting Complexer
+
+```C++
+for(size_t i=0;i<vec.size();i+=4)
+{
+    vec[i]+=50;
+    vec[i+1]+=100;
+    vec[i+2]+=150;
+    vec[i+3]+=200;
+}
+```
+This approach with operator[] gets not vectorized in any way and takes 0.0615 seconds.
+
+A pointer based approach instead:
+```C++
+unsigned char* p_end=vec.data()+vec.size();
+for(unsigned char* p=vec.data();p<p_end;p+=4)
+{
+    p[0]+=50;
+    p[1]+=100;
+    p[2]+=150;
+    p[3]+=200;
+}
+```
+This takes 0.014694 seconds and gets vectorized into:
+```
+movdqu xmm0,XMMWORD PTR [r9]
+add    r11,0x1
+add    r9,0x10
+paddb  xmm0,xmm7
+movdqu XMMWORD PTR [r9-0x10],xmm0
+cmp    r11,r10
+jb     0x40304f <main(int, char**)+367>
+```
+When using directly `vec.data()+vec.size()` instead of `p_end` in the `for` the loop gets not vectorized and takes 0.038044 seconds.
