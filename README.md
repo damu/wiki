@@ -10,6 +10,7 @@ The licence of the articles here is the MIT licence or [GNU Free Documentation L
 [Optimizing: Pixel Copying](optimizing_pixel_copying.md): An adventure into optimizations not done by the compiler.  
 [Optimizing: Urho3D::Image::Clear](optimizing_Urho3D_Image_Clear.md): Kinda similar to the pixel copying.  
 [Optimizing: Compile Time](optimizing_compile_time.md): General tips and an experiment.  
+[Optimizing: Auto Vectorization](auto_vectorization.md): Experiments with compiler created SIMD instructions.  
 [Better Typed C++](better_typed_c++.md): Issues with C++ types and conversions and fixing them with current C++.  
 [Converter Classes](converter_classes.md): Using classes to pass different wrapped arguments.  
 [Library Design: Creating Objects Handled by the Library](library_design_creation_on_heap.md)  
