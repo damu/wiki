@@ -84,7 +84,7 @@ My normal approach is to use std::min (or std::max).
 
 This took 0.093441 seconds. Compared to the measured times in the first test this does not look good SIMD wise.  
 I looked at the generated assembler output and there was no SIMD there.  
-But it contained `cmova` which is a "conditional move if above".
+But it contained at least `cmova` which is a "conditional move if above".
 
 The vectorizer info output says
 ```
@@ -112,7 +112,7 @@ min(const _Tp& __a, const _Tp& __b)
     return __a;
 }
 ```
-I assume that the `__glibcxx_function_requires` is just a compile time thing and does not generate actual code. So the function should be
+The `__glibcxx_function_requires` is just a compile time thing and does not generate actual code. So the function should be
 identical to:
 ```C++
 inline const unsigned char& min(const unsigned char& __a, const unsigned char& __b)
@@ -123,7 +123,7 @@ inline const unsigned char& min(const unsigned char& __a, const unsigned char& _
 }
 ```
 Such a function should get completely inlined.  
-No idea why the ternary operator is commented out in my STL (same in MinGW 5.3.0 and 4.8) and they use two return instead. Maybe that causes the less optimal version?
+No idea why the ternary operator is commented out in my STL (same in MinGW 5.3.0 and 4.8) and why they use two return instead. Maybe that causes the not-auto-vectorization?
 
 ### Second Try
 
