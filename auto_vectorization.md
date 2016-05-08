@@ -47,8 +47,12 @@ This optimization in this case makes the code "only" 4x faster and not 16x as on
 Let's see:  
 It takes ~0.013935 seconds to process 104857600 bytes. That are ~7.525 GB per second.  
 Without the SIMD optimization the speed was only 2.097 GB/s.  
-The machine I tested this on is a virtual machine and the host has [DDR2 RAM](https://en.wikipedia.org/wiki/DDR2_SDRAM). I don't know what exact type of RAM it is  and how much other processes and the virtual machine cost drain but Wikipedia says the fastest
+The machine I tested this on is a virtual machine and the host has [DDR2 RAM](https://en.wikipedia.org/wiki/DDR2_SDRAM). I don't know what exact type of RAM it is and how much other processes and the virtual machine drain but Wikipedia says the fastest
 DDR2 has a transfer rate of 8.533 GB/s. The 7.525 GB/s that I measured are surprisingly close and that was reading, calculating and writing.
 
 I didn't use any special instruction or any kind of alignment. The compiler automatically created code that works also with unaligned data by using non-SIMD code until it reaches properly aligned data.  
 There are special alignment commands and special keywords. They may have made this slightly faster, but also more complicated. This basically worked without nowing anything about SIMD.
+
+The same test with a vector of `unsigned short` instead of `unsigned char` did take 0.027901 seconds. The assembler code had `paddw`
+instead of `paddb` which adds the 100 to every word (2 bytes) in the 128bit register (8 shorts instead of 16 chars).  
+Here the speed was 7.516 GB/s (104857600 shorts are 209715200 bytes). The speed is practically the same, the measured times are always fluctuating a bit which explains the small difference.
