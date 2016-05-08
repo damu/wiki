@@ -26,8 +26,8 @@ for(auto& e:vec)                  // add 100 to every element
 Without auto vectorization (-O2) the "add 100 to every element" loop takes ~0.050 seconds.  
 With auto vectorization (-O3) the "add 100 to every element" loop takes ~0.013935 seconds.  
 
-By the way it didn't make a difference if I use such a range based for loop, a classical index based for loop or a pointer based loop.
-I tested all and there was no difference in speed.
+By the way it didn't make any difference if I used such a range based for loop with `auto&`, one with `auto`, one with `auto&&`, a classical index based for loop or a pointer based loop.  
+I tested all and there was no difference in speed. I had other cases where a pointer based loop was faster, so this can matter but didn't in this case. Maybe because of the memory being the main bottleneck.
 
 The assembler output with auto vectorization contains:
 ```
