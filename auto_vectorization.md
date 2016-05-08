@@ -18,7 +18,7 @@ Vectorizing loop at ..\main.cpp:28
 
 I started experimenting with various loops to see what is optimized and how good.
 
-### Test 1: Simple Vector Math
+## Test 1: Simple Vector Math
 
 ```C++
 std::vector<unsigned char> vec;   // make a vector with 10240*10240 elements
@@ -64,3 +64,97 @@ There are special alignment commands and special keywords. They may have made th
 The same test with a vector of `unsigned short` instead of `unsigned char` did take 0.027901 seconds. The assembler code had `paddw`
 instead of `paddb` which adds the 100 to every word (2 bytes) in the 128bit register (8 shorts instead of 16 chars).  
 Here the speed was 7.516 GB/s (104857600 shorts are 209715200 bytes). The speed is practically the same, the measured times are always fluctuating a bit which explains the small difference.
+
+
+## Test 2: Minimum Maximum
+
+I looked at a SSE2 instruction list and saw instructions that compare and assign in one step. I didn't even know that there are such operations in general. They are called conditional moves.
+
+### First Try
+
+Same test code as above but different loop action:
+```C++
+std::vector<unsigned char> vec;
+...
+for(auto& e:vec)
+    e=std::min<unsigned char>(e,200);
+```
+So I want to ceil every element in a vector to 200 (so that every element is <=200).  
+My normal approach is to use std::min (or std::max).
+
+This took 0.093441 seconds. Compared to the measured times in the first test this does not look good SIMD wise.  
+I looked at the generated assembler output and there was no SIMD there.  
+But it contained `cmova` which is a "conditional move if above".
+
+The vectorizer info output says
+```
+Analyzing loop at ..\main.cpp:28
+..\main.cpp:28: note: versioning for alias required: can't determine dependence between MEM[(const unsigned char &)SR.375_338] and *SR.375_338
+..\main.cpp:28: note: misalign = 0 bytes of ref D.103094
+..\main.cpp:28: note: misalign = 0 bytes of ref D.103094
+..\main.cpp:28: note: not vectorized: complicated access pattern.
+..\main.cpp:28: note: bad data access.
+...
+..\main.cpp:8: note: vectorized 0 loops in function.
+```
+
+The std::min functions looks surprisingly simple though:
+```C++
+template<typename _Tp>
+inline const _Tp&
+min(const _Tp& __a, const _Tp& __b)
+{
+    // concept requirements
+    __glibcxx_function_requires(_LessThanComparableConcept<_Tp>)
+    //return __b < __a ? __b : __a;
+    if (__b < __a)
+        return __b;
+    return __a;
+}
+```
+I assume that the `__glibcxx_function_requires` is just a compile time thing and does not generate actual code. So the function should be
+identical to:
+```C++
+inline const unsigned char& min(const unsigned char& __a, const unsigned char& __b)
+{
+    if (__b < __a)
+        return __b;
+    return __a;
+}
+```
+Such a function should get completely inlined.  
+No idea why the ternary operator is commented out in my STL (same in MinGW 5.3.0 and 4.8) and they use two return instead. Maybe that causes the less optimal version?
+
+### Second Try
+
+The second version of this test was:
+```C++
+for(auto& e:vec)
+    e=e>200?200:e;
+```
+This one takes only 0.016846 seconds. That are 6.224 GB/s.
+
+The auto vectorizer info says:
+```
+Analyzing loop at ..\main.cpp:28
+..\main.cpp:28: note: Unknown misalignment, is_packed = 0
+..\main.cpp:28: note: Unknown misalignment, is_packed = 0
+..\main.cpp:28: note: virtual phi. skip.
+..\main.cpp:28: note: not ssa-name.
+..\main.cpp:28: note: use not simple.
+..\main.cpp:28: note: not ssa-name.
+..\main.cpp:28: note: use not simple.
+..\main.cpp:28: note: virtual phi. skip.
+Vectorizing loop at ..\main.cpp:28
+...
+..\main.cpp:8: note: vectorized 1 loops in function.
+```
+
+The generates assembler contains SIMD this time:
+```
+movdqa xmm0,XMMWORD PTR [rax+r11*1]
+pminub xmm0,xmm7
+movdqa XMMWORD PTR [rax+r11*1],xmm0
+add    r11,0x10
+```
+`movdqa` is a conditional SIMD move that compares 16 bytes at once.
