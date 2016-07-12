@@ -39,7 +39,7 @@ image image::scaled(int w,int h) const
 }
 ```
 Having only one image defined and that also as the first thing causes the compiler to move the allocation and initialization
-out of this function and does completely save the ~0.015 seconds when returning the image.  
+out of this function and does completely save the ~0.015 seconds when returning the image (there's no copy being made at all).  
 This function takes only 0.017 seconds. Though it practically also still takes the ~0.006 seconds for creating the image.
 
 The most surprising thing for me was that returning the image (one copy I guess?) takes so long compared to the
