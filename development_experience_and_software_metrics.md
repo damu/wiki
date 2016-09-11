@@ -16,7 +16,7 @@ Small applications. Maybe some kind of file processing. Turning CSV data into JS
 application with a slider and load & save functions to edit the brightness of an image. Processing of simple file formats like
 Bitmap (.bmp), Wave (.wav) or Tar (.tar), the support for the file format doesn't have to be complete, it's more about exercising such
 things in general and not about following every detail of the format. One could visualize a Wave file or show the content of a Tar archive
-and allow file extraction, file adding and Tar archive creation.
+and allow file extraction, file adding and Tar archive creation. One could also implement AES to for example encrypt and decrypt a file with a password.
 
 ### Flagship Project
 
