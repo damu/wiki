@@ -20,8 +20,7 @@ and allow file extraction, file adding and Tar archive creation.
 
 ### Flagship Project
 
-If one wants or needs to show his software development ability he should have one especially good project for this purpose. It should
-have a decent complexity and good quality in regard of software metrics:
+If one wants or needs to show his software development ability he should have one especially good project for this purpose. This project must be accessible in source form, at least for looking at it (license wise). It would be good if this project has a certain motivation behin it like: "I didn't like software/game X because of Y and Z so I made that part better/differently". The project should have a decent complexity and good quality in regard of software metrics:
 
 ## Software Metrics
 
