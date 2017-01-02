@@ -13,7 +13,7 @@ The licence of the articles here is the MIT licence or [GNU Free Documentation L
 [Optimizing: Auto Vectorization](auto_vectorization.md): Experiments with compiler created SIMD instructions.  
 [Optimizing: Return Value Optimization](return_value_optimization.md): Surprisingly big impact of RVO. Also std::vector sucks.  
 [Better Typed C++](better_typed_c++.md): Issues with C++ types and conversions and fixing them with current C++.  
-[Non Null Guarantee](non_null_guarantee.md): About references, null pointer and dereferencing 0 and preventing such errors.
+[Non Null Guarantee](non_null_guarantee.md): About references, null pointer and dereferencing 0 and preventing such errors.  
 [Converter Classes](converter_classes.md): Using classes to pass different wrapped arguments.  
 [Library Design: Creating Objects Handled by the Library](library_design_creation_on_heap.md)  
 [Library Design: Terrain Editing Urho3D](library_design_terrain_editing.md)  
