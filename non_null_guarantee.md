@@ -95,11 +95,12 @@ And I also compiled both of these with GCC 4.8.2 with these options. I had to re
 -O2 -Wall -Wpedantic -Wextra -fdelete-null-pointer-checks -Wuninitialized -pedantic-errors
 ```
 
-Maybe there are other (external) tools or other compilers that can detect such "mistakes".
+Maybe there are other (external) tools or other compilers that can detect such "mistakes".  
 
-This sucks.
+This sucks.  
+Such more extensive statical analysis when compiling is one of the main ideas behind the Rust programming language.
 
-Is there a way to detect such simple mistakes at compile time? Not really it seems.  
+Is there a way to detect such simple mistakes at compile time? Not really it seems. Would be nice if the incoming concepts would allow "custom" compile time checks like that.  
 The only thing I came up with is a runtime solution:
 
 ## Runtime Solution
