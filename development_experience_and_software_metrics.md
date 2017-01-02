@@ -1,5 +1,7 @@
 # Development Experience and Software Metrics
 
+Note: I wrote this text quite a while ago and never really finished it. It's kinda useful but I remember that I wasn't that happy with it and kinda unsure about it. I could need some kind of polishing.
+
 ## Development Experience
 
 In software development experience is super important. Even if you went to some kind of school or studied
