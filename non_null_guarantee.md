@@ -67,12 +67,10 @@ int main()
   do_stuff((person*)0);                 // triggers actually a compiler warning
   {
     person* p=0;
-    cout<<"do_stuff "<<p->name<<endl;   // does not trigger a warning
     do_stuff(p);                        // does not trigger a warning
   }
   {
     shared_ptr<person> p=nullptr;
-    cout<<"do_stuff "<<p->name<<endl;   // does not trigger a warning
     do_stuff(p.get());                  // does not trigger a warning
   }
   return 0;
