@@ -107,4 +107,9 @@ The only thing I came up with is a runtime solution:
 
 One could use a class/struct that checks for 0 when the pointer or references gets set/changed. A reference in C++ is pretty much a const pointer (a pointer that can't be set to anything else). The same can be done with a wrapping class/struct. This could be similar to std::unique_ptr.
 
-One could also check for 0 whenever dereferencing the class/struct, expecially if 0 is valid but when dereferencing 0 should actually be caught. This would be expensive though, so maybe only do this in debug mode (like with "#ifdef DEBUG").
+One could also check for 0 whenever dereferencing the class/struct, expecially if 0 is valid but when dereferencing 0 should actually be caught. This would be expensive though, so maybe only do this in debug mode (like with "#ifdef DEBUG").  
+  
+##   
+  
+I think I never had a "0 reference" bug, but I had a bunch of pointers being 0 when not expecting that and bugs due to that (in software already shipped to buying customers as well, by the way). Most of the time I don't check for 0 somewhere when I know that it can never be 0 at that time. But it happened a few times that I later change stuff and make that object optional so that it can actually be 0 at that time and forget to add checks -> bug causing a crash  
+Such bugs can be really hard to find. A runtime check (in debug mode) when using a 0 pointer/reference would have saved a lot of time.
