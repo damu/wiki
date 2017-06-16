@@ -1,7 +1,8 @@
 # Non Null Guarantee
 
-In one of his videos Casey Muratori (https://www.youtube.com/watch?v=QauD5cAgnT8) ranted about references and mentioned that they can be 0 like a pointer and claimed that they are totally useless due to that and other reasons. It was one of his silly C++ rants fueled by his insane hate and several wrong claims.  
+In one of his videos Casey Muratori (https://www.youtube.com/watch?v=QauD5cAgnT8) ranted about references and mentioned that they can be 0 (like a pointer) and claimed that they are totally useless due to that and other reasons. It was one of his silly C++ rants fueled by his insane hate and several wrong claims.  
 I dug into that "reference with 0" and did some research:  
+
 A somewhat common misconception is that referencees can't be 0. They can. That can be found out pretty quickly when searching for it as well, like here: http://stackoverflow.com/questions/57483/what-are-the-differences-between-a-pointer-variable-and-a-reference-variable-in  
 But dereferencing 0 is actually Undefined Behaviour: http://en.cppreference.com/w/cpp/language/ub  
 The problem is: the compiler (at least GCC up to 6.2.0 as it seems) doesn't care at all. There is no way to get a warning for that kind of Undefined Behavior and it works just fine (kinda, it crashes of course when using the reference). I hate that there is no "warn me about all cases of Undefined Behavior in my code"-option  
